@@ -1,0 +1,60 @@
+name: sharaka_app
+description: "Sharaka - شراكة | منصة استثمار بالأسهم للمشاريع الخليجية"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+  # Backend
+  supabase_flutter: ^2.5.6
+
+  # State management
+  provider: ^6.1.2
+
+  # Navigation
+  go_router: ^14.2.0
+
+  # UI helpers
+  google_fonts: ^6.2.1
+  flutter_svg: ^2.0.10+1
+  cached_network_image: ^3.3.1
+  shimmer: ^3.0.0
+  fl_chart: ^0.68.0
+  percent_indicator: ^4.2.3
+
+  # Forms & validation
+  flutter_form_builder: ^9.3.0
+  form_builder_validators: ^11.0.0
+
+  # File / image upload (KYC, project docs)
+  image_picker: ^1.1.2
+  file_picker: ^8.0.6
+
+  # Localization (AR/EN)
+  flutter_localizations:
+    sdk: flutter
+  intl: any
+
+  # Utilities
+  shared_preferences: ^2.2.3
+  url_launcher: ^6.3.0
+  uuid: ^4.4.2
+  connectivity_plus: ^6.0.4
+  flutter_dotenv: ^5.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - .env
