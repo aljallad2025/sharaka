@@ -1,0 +1,70 @@
+workflows:
+  android-release:
+    name: Sharaka - Android Build
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      flutter: stable
+      groups:
+        # أنشئ هذه المجموعة من Codemagic UI:
+        # App settings > Environment variables > اسم المجموعة: sharaka_secrets
+        # وأضف بداخلها: SUPABASE_URL و SUPABASE_ANON_KEY
+        - sharaka_secrets
+      vars:
+        PACKAGE_NAME: "com.sharaka.app"
+    scripts:
+      - name: إنشاء ملف .env من متغيرات Codemagic السرية
+        script: |
+          echo "SUPABASE_URL=$SUPABASE_URL" > .env
+          echo "SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY" >> .env
+      - name: تثبيت الحزم
+        script: |
+          flutter packages pub get
+      - name: بناء ملف APK (للتجربة المباشرة)
+        script: |
+          flutter build apk --release
+      - name: بناء ملف AAB (للنشر على Google Play)
+        script: |
+          flutter build appbundle --release
+    artifacts:
+      - build/app/outputs/flutter-apk/app-release.apk
+      - build/app/outputs/bundle/release/app-release.aab
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - your-email@example.com
+        notify:
+          success: true
+          failure: true
+
+  ios-release:
+    name: Sharaka - iOS Build
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      flutter: stable
+      groups:
+        - sharaka_secrets
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: إنشاء ملف .env من متغيرات Codemagic السرية
+        script: |
+          echo "SUPABASE_URL=$SUPABASE_URL" > .env
+          echo "SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY" >> .env
+      - name: تثبيت الحزم
+        script: |
+          flutter packages pub get
+      - name: تثبيت CocoaPods
+        script: |
+          cd ios && pod install
+      - name: بناء IPA (يتطلب توقيع Apple مُهيأ مسبقاً بلوحة Codemagic)
+        script: |
+          flutter build ipa --release --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      email:
+        recipients:
+          - your-email@example.com
