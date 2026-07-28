@@ -22,17 +22,12 @@ class _ProjectInvestorsScreenState extends State<ProjectInvestorsScreen> {
   }
 
   Future<_ProjectInvestorsData> _load() async {
-    final client = SupabaseService.instance.client;
     final projectMap = await SupabaseService.instance.fetchProjectById(widget.projectId);
-    final investmentsRaw = await client
-        .from('investments')
-        .select('*, profiles(full_name, email)')
-        .eq('project_id', widget.projectId)
-        .order('created_at', ascending: false);
+    final investmentsRaw = await SupabaseService.instance.fetchProjectInvestors(widget.projectId);
 
     return _ProjectInvestorsData(
       project: projectMap != null ? ProjectModel.fromMap(projectMap) : null,
-      investments: List<Map<String, dynamic>>.from(investmentsRaw),
+      investments: investmentsRaw,
     );
   }
 

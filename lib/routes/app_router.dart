@@ -37,10 +37,7 @@ class AppRoutes {
 }
 
 final GoRouter appRouter = GoRouter(
-  // ⚠️ وضع معاينة مؤقت: التطبيق بيفتح على قائمة كل الشاشات مباشرة
-  // بدل شاشة الـ splash، عشان تقدر تتصفح التصميم بدون ربط Supabase.
-  // لما تربط الباكند الحقيقي، رجّع القيمة لـ AppRoutes.splash.
-  initialLocation: AppRoutes.demo,
+  initialLocation: AppRoutes.splash,
   routes: [
     GoRoute(path: AppRoutes.splash, builder: (c, s) => const SplashScreen()),
     GoRoute(path: AppRoutes.demo, builder: (c, s) => const DemoMenuScreen()),

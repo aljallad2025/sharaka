@@ -67,7 +67,36 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 6),
                 Text('سجّل الدخول لمتابعة استثماراتك أو مشاريعك',
                     style: TextStyle(color: AppColors.textSecondary)),
-                const SizedBox(height: 32),
+                const SizedBox(height: 20),
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: AppColors.lightGold.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('🧪 وضع معاينة — حسابات تجريبية جاهزة',
+                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12.5)),
+                      const SizedBox(height: 6),
+                      const Text(
+                        'investor@sharaka.com — مستثمر\n'
+                        'owner@sharaka.com — صاحب مشروع\n'
+                        'admin@sharaka.com — إدارة\n'
+                        'كلمة المرور: أي شي 6 أحرف فأكثر',
+                        style: TextStyle(fontSize: 12, height: 1.6),
+                      ),
+                      const SizedBox(height: 6),
+                      TextButton(
+                        onPressed: () => context.push('/demo'),
+                        style: TextButton.styleFrom(padding: EdgeInsets.zero, minimumSize: const Size(0, 0)),
+                        child: const Text('أو تصفّح كل الشاشات مباشرة ←', style: TextStyle(fontSize: 12)),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 12),
                 CustomTextField(
                   label: 'البريد الإلكتروني',
                   controller: _emailCtrl,

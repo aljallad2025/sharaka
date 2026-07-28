@@ -22,8 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(milliseconds: 1400));
     if (!mounted) return;
 
-    final user = SupabaseService.instance.currentUser;
-    if (user == null) {
+    final uid = SupabaseService.instance.currentUserId;
+    if (uid == null) {
       context.go(AppRoutes.login);
       return;
     }

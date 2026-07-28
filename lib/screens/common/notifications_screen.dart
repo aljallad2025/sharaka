@@ -19,14 +19,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   Future<List<Map<String, dynamic>>> _load() async {
-    final uid = SupabaseService.instance.currentUser?.id;
-    if (uid == null) return [];
-    final data = await SupabaseService.instance.client
-        .from('notifications')
-        .select()
-        .eq('user_id', uid)
-        .order('created_at', ascending: false);
-    return List<Map<String, dynamic>>.from(data);
+    return SupabaseService.instance.fetchNotifications();
   }
 
   IconData _iconFor(String type) {

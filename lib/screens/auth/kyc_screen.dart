@@ -42,7 +42,7 @@ class _KycScreenState extends State<KycScreen> {
     try {
       final idBytes = await _idFrontImage!.readAsBytes();
       final selfieBytes = await _selfieImage!.readAsBytes();
-      final uid = SupabaseService.instance.currentUser?.id ?? 'unknown';
+      final uid = SupabaseService.instance.currentUserId ?? 'unknown';
 
       await SupabaseService.instance.uploadFile(
         bucket: 'kyc-documents',

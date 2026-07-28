@@ -27,30 +27,21 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> with Single
   }
 
   Future<List<ProjectModel>> _loadPendingProjects() async {
-    final data = await SupabaseService.instance.client
-        .from('projects')
-        .select()
-        .eq('status', 'pending_review')
-        .order('created_at', ascending: false);
-    return List<Map<String, dynamic>>.from(data).map((e) => ProjectModel.fromMap(e)).toList();
+    final data = await SupabaseService.instance.fetchPendingProjects();
+    return data.map((e) => ProjectModel.fromMap(e)).toList();
   }
 
   Future<List<Map<String, dynamic>>> _loadPendingKyc() async {
-    final data = await SupabaseService.instance.client
-        .from('profiles')
-        .select()
-        .eq('kyc_status', 'pending')
-        .order('created_at', ascending: false);
-    return List<Map<String, dynamic>>.from(data);
+    return SupabaseService.instance.fetchPendingKycUsers();
   }
 
   Future<void> _updateProjectStatus(String id, String status) async {
-    await SupabaseService.instance.client.from('projects').update({'status': status}).eq('id', id);
+    await SupabaseService.instance.updateProjectStatus(id, status);
     setState(() => _pendingProjectsFuture = _loadPendingProjects());
   }
 
   Future<void> _updateKycStatus(String userId, String status) async {
-    await SupabaseService.instance.client.from('profiles').update({'kyc_status': status}).eq('id', userId);
+    await SupabaseService.instance.updateKycStatus(userId, status);
     setState(() => _pendingKycFuture = _loadPendingKyc());
   }
 
