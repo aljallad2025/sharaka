@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import '../screens/splash/splash_screen.dart';
+import '../screens/demo/demo_menu_screen.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/auth/register_screen.dart';
 import '../screens/auth/kyc_screen.dart';
@@ -16,6 +17,7 @@ import '../screens/admin/admin_dashboard_screen.dart';
 
 class AppRoutes {
   static const splash = '/';
+  static const demo = '/demo';
   static const login = '/login';
   static const register = '/register';
   static const kyc = '/kyc';
@@ -35,9 +37,13 @@ class AppRoutes {
 }
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: AppRoutes.splash,
+  // ⚠️ وضع معاينة مؤقت: التطبيق بيفتح على قائمة كل الشاشات مباشرة
+  // بدل شاشة الـ splash، عشان تقدر تتصفح التصميم بدون ربط Supabase.
+  // لما تربط الباكند الحقيقي، رجّع القيمة لـ AppRoutes.splash.
+  initialLocation: AppRoutes.demo,
   routes: [
     GoRoute(path: AppRoutes.splash, builder: (c, s) => const SplashScreen()),
+    GoRoute(path: AppRoutes.demo, builder: (c, s) => const DemoMenuScreen()),
     GoRoute(path: AppRoutes.login, builder: (c, s) => const LoginScreen()),
     GoRoute(path: AppRoutes.register, builder: (c, s) => const RegisterScreen()),
     GoRoute(path: AppRoutes.kyc, builder: (c, s) => const KycScreen()),

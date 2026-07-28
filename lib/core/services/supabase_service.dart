@@ -10,10 +10,23 @@ class SupabaseService {
   SupabaseClient get client => Supabase.instance.client;
 
   static Future<void> initialize() async {
-    await dotenv.load(fileName: '.env');
+    // نحاول نحمّل ملف .env، بس إذا مش موجود (مثلاً وضع معاينة بدون باكند)
+    // ما بنوقف تشغيل التطبيق.
+    try {
+      await dotenv.load(fileName: '.env');
+    } catch (_) {
+      dotenv.testLoad(fileInput: ''); // يهيّئ dotenv بقيم فاضية بدل ما يفشل
+    }
+    // قيم وهمية صالحة الشكل (placeholder) تمنع Supabase.initialize من
+    // رمي استثناء وقت التشغيل لما ما يكون في URL حقيقي — كافي لعرض
+    // الشاشات، بس أي طلب فعلي للسيرفر رح يفشل لحد ما تربط مشروعك.
+    final url = dotenv.env['SUPABASE_URL'];
+    final anonKey = dotenv.env['SUPABASE_ANON_KEY'];
+    final hasRealConfig = url != null && url.startsWith('http') && anonKey != null && anonKey.isNotEmpty;
+
     await Supabase.initialize(
-      url: dotenv.env['SUPABASE_URL'] ?? '',
-      anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
+      url: hasRealConfig ? url : 'https://placeholder.supabase.co',
+      anonKey: hasRealConfig ? anonKey! : 'placeholder-anon-key',
     );
   }
 
